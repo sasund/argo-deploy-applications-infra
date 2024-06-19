@@ -35,13 +35,13 @@ spec:
             # externalTrafficPolicy: Local # Used to allow whitelist by IP
 
           ## Resources ##
-          resources:
-            requests:
-              cpu: 300m
-              memory: 400Mi
-            limits:
+          #resources:
+          #  requests:
+          #    cpu: 300m
+          #    memory: 400Mi
+          #  limits:
               # cpu: without limit
-              memory: 400Mi
+          #    memory: 400Mi
 
           ## Replica ##
           autoscaling:
