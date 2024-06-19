@@ -21,7 +21,7 @@ spec:
       
   sources:
       # Do not use official repo has argo do not allow (yet) kustomize patch inside Application # https://github.com/argoproj/argo-cd/issues/16352
-    - repoURL: https://github.com/Jojoooo1/argocd-extensions-metrics
+    - repoURL: https://github.com/sasund/argocd-extensions-metrics
       targetRevision: main
       path: ./
 
