@@ -27,7 +27,7 @@ spec:
     # https://github.com/argoproj/argo-helm/tree/main/charts/argo-workflows
     helm:
       valuesObject:
-        fullnameOverride: argocd-workflows
+        fullnameOverride: argo-workflows
 
         crdAnnotations:
           argocd.argoproj.io/sync-wave: "-1"
