@@ -20,7 +20,7 @@ spec:
     #   selfHeal: true
       
   source:
-    chart: argo-workflow
+    chart: argo-workflows
     repoURL: https://argoproj.github.io/argo-workflows
     targetRevision: 2.35.3
 
