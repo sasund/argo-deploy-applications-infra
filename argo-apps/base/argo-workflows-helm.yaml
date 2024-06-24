@@ -59,6 +59,7 @@ spec:
           #  minAvailable: 1
 
         server:
+          authMethode: "client"
           ingress:
             enabled: true
             ingressClassName: "nginx"
