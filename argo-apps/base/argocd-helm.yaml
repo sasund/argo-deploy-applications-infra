@@ -21,13 +21,13 @@ spec:
       
   sources:
       # Do not use official repo has argo do not allow (yet) kustomize patch inside Application # https://github.com/argoproj/argo-cd/issues/16352
-    - repoURL: https://github.com/sasund/argocd-extensions-metrics
+    - repoURL: https://github.com/Jojoooo1/argocd-extensions-metrics
       targetRevision: main
       path: ./
 
     - chart: argo-cd
       repoURL: https://argoproj.github.io/argo-helm
-      targetRevision: 7.1.1
+      targetRevision: 7.4.1
 
       # https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
       helm:
@@ -53,6 +53,8 @@ spec:
               url: http://argo${ARGOCD_ENV_DNS_ENV}.${ARGOCD_ENV_DNS_DOMAIN}
               exec.enabled: "true"
               kustomize.buildOptions: "--load-restrictor LoadRestrictionsNone"
+              application.resourceTrackingMethod: annotation+label
+
 
               # DO NOT USE in production, this is only used to improve reconciliation in testing env.
               timeout.reconciliation: "10s"
@@ -107,7 +109,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 namespace: argocd
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
@@ -142,7 +144,7 @@ spec:
 
             initContainers:
               - name: download-tools
-                image: golang:1.21.6-alpine
+                image: golang:1.22.4-alpine3.20
                 command: [sh, -c]
                 args:
                   - apk add git && go install github.com/drone/envsubst/cmd/envsubst@v1.0.3 && mv $GOPATH/bin/envsubst /custom-tools/
@@ -153,7 +155,7 @@ spec:
             extraContainers:        
               - name: envsubst
                 command: [/var/run/argocd/argocd-cmp-server]
-                image: quay.io/argoproj/argocd:v2.10.2
+                image: quay.io/argoproj/argocd:v2.11.5
                 securityContext:
                   runAsNonRoot: true
                   runAsUser: 999
@@ -178,7 +180,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 namespace: argocd
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
@@ -195,7 +197,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
                 namespace: argocd
@@ -209,13 +211,13 @@ spec:
                 - name: metrics
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension.tar.gz
+                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension.tar.gz
                     - name: EXTENSION_CHECKSUM_URL
-                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.1/extension_checksums.txt
+                      value: https://github.com/argoproj-labs/argocd-extension-metrics/releases/download/v1.0.3/extension_checksums.txt
                 - name: rollout
                   env:
                     - name: EXTENSION_URL
-                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.4/extension.tar
+                      value: https://github.com/argoproj-labs/rollout-extension/releases/download/v0.3.5/extension.tar
                    
               resources: {}
                 # limits:
@@ -237,7 +239,7 @@ spec:
             metrics:
               enabled: true
               serviceMonitor:
-                enabled: true
+                enabled: false
                 additionalLabels:
                   prometheus.io/scrap-with: kube-prometheus-stack
                 namespace: argocd
